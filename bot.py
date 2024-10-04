@@ -30,8 +30,8 @@ class Racinator(Bot):
         next_dist = (next_target-target).length()
         # calculate the throttle
         
-        target_velocity = 50+max(dist,next_dist)
-        throttle = ( target_velocity-velocity.length())
+        target_velocity = 60+min(1.8*dist,2.8*next_dist)
+        throttle = 2*( target_velocity-velocity.length())
 
 
         # calculate the steering
