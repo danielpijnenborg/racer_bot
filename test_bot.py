@@ -1,5 +1,5 @@
-from .bot import SimpleBot
+from .bot import Racinator
 
 
 def test_init():
-    SimpleBot(track=None)
+    Racinator(track=None)

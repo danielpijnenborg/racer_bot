@@ -6,28 +6,33 @@ from ...bot import Bot
 from ...linear_math import Transform
 
 
-class SimpleBot(Bot):
+class Racinator(Bot):
     @property
     def name(self):
-        return "SimpleBot"
+        return "Racinator"
 
     @property
     def contributor(self):
-        return "Nobleo"
+        return "Daniel"
 
     def compute_commands(self, next_waypoint: int, position: Transform, velocity: Vector2) -> Tuple:
         target = self.track.lines[next_waypoint]
+        next_point = next_waypoint +1
+        if next_point >= len(self.track.lines):
+            next_point = 0
+        next_target = self.track.lines[next_point]
         # calculate the target in the frame of the robot
         target = position.inverse() * target
+        next_target = position.inverse() * next_target
         # calculate the angle to the target
         angle = target.as_polar()[1]
-
+        dist = target.as_polar()[0]
+        next_dist = (next_target-target).length()
         # calculate the throttle
-        target_velocity = 50
-        if velocity.length() < target_velocity:
-            throttle = 1
-        else:
-            throttle = -1
+        
+        target_velocity = 50+max(dist,next_dist)
+        throttle = ( target_velocity-velocity.length())
+
 
         # calculate the steering
         if angle > 0:
